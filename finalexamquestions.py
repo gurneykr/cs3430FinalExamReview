@@ -143,27 +143,29 @@ def newton_raphson(poly_fexpr, g, n):
     #PROBLEM 4
 # finds x and y that give the solution to
 #the equation x^2 -ky^2 = +- 1
-# def pell(n):
-#     pairs = []
-#
-#     while len(pairs) < n:
-#         for x in range(1, 10000):
-#             for y in range(1, 1000):
-#                 if abs(x**2 - 2*y**2) == 1:
-#                     pairs.append((x,y))
-#
-#     return pairs
-
-def pell(x1, x2, y1, y2):
+def pell(n):
     pairs = []
-    f = lambda x,y: x*x - 2*x*y
+    for i in range(1, n+1):
+        pairs.append(find_pairs(i))
 
-    for x in range(x1, x2+1):
-        for y in range(y1, y2+1):
-            if abs(f(x,y)) == 1:
-                if (x,y) not in pairs:
-                    pairs.append((x, y))
     return pairs
+
+def find_pairs(n):
+    if n == 1:
+        return (n,n)
+    elif n == 2:
+        return (3, n)
+    else:
+        a = 1
+        b = 2
+        d = 0
+        for i in range(3, n+1):
+            c = 2 * b + a
+            d = int(math.sqrt(1+2*c**2))
+            a = b
+            b = c
+
+    return (d, b)
 
 
 

@@ -76,7 +76,7 @@ def test_07():
     print(newton_raphson(fexpr, make_const(1.0), make_const(10000)))
 
 def test_08():
-    print(pell(0, 1000, 0, 1000))
+    print(pell(10))
 
 if __name__ =='__main__':
     test_08()
