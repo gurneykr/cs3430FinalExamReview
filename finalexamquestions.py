@@ -201,8 +201,32 @@ def arm_tumor_test(yt, radius, rate_change):
 
 #######  SECTION 5 - GROWTH, DECAY, TERMINAL VELOCITY, PARTIAL DIFFERENTIAL EQUATIONS #####
 
+def problem_1_decay():
+    fex = make_e_expr(make_prod(const(-0.021), make_pwr('x', 1.0)))
+    print(fex)
+    P0 = const(8.0)
+    expr, decay_const = fun1(fex, P0)
+
+    print("f(x)= ",expr,"lambda=", decay_const)
+    remaining = fun2(expr, 3.0)
+    print("remaining= ", remaining)
+    remaining_after_n_years = fun3(expr, 33.0, 40.0)
+    print("after n years", remaining_after_n_years)
+
+def fun1(expr, P0):#finds lambda= decay_const
+    newExpr = make_prod(P0, expr)
+    decay_const = expr.get_deg().get_mult1()
+    return newExpr, decay_const
 
 
+def fun2(expr, n):#computes remaining material after n years
+    remaining = tof(expr)(n)
+    return remaining
+
+def fun3(expr, half_life, n):#given an expr and it's half life, compute what's left after n years
+    p0 = expr.get_mult1().get_val()
+    remaining = p0 * (0.5**(n/half_life))
+    return remaining
 
 
 ##### SECTION 6 - ANTIDIFFERENTIATION ############
