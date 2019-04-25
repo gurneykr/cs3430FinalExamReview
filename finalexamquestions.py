@@ -6,18 +6,50 @@ from deriv import deriv
 from antideriv import antideriv, antiderivdef
 from defintegralapprox import midpoint_rule, trapezoidal_rule, simpson_rule
 from linprog import line_intersection, get_line_coeffs, maximize_obj_fun, minimize_obj_fun
+from hw03 import maximize_revenue
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 
 ######SECTION 2 - DIFFERENTIATION
     #PROBLEM 1
-def problem_1_deriv(fexpr, xlim, ylim):
+def problem_1_deriv(): # still has problems
 
-    f1 = tof(fexpr)
-    f2 = tof(deriv(fexpr))
+    # f(x) =(x+1)(2x+1)(3x+1) /(4x+1)^.5
+    fex1 = make_plus(make_pwr('x', 1.0), const(1.0))
+    fex2 = make_plus(make_prod(const(2.0), make_pwr('x', 1.0)), const(1.0))
+    fex3 = make_plus(make_prod(const(3.0), make_pwr('x', 1.0)), const(1.0))
+    fex4 = make_prod(fex1, fex2)
 
-    xvals = np.linspace(-2, 2, 10000)
+    fex5 = make_prod(fex4, fex3)
+
+    fex6 = make_pwr_expr( make_plus(make_prod(const(4.0),
+                                         make_pwr('x', 1.0)),
+                               const(1.0)),
+                     0.5)
+    fex = make_quot(fex5, fex6)
+    print(fex)
+    drv = deriv(fex)
+    print('drv: ',drv)
+    drvf = tof(drv)
+    def gt_drvf(x):
+        n = (60.0*x**3)+ (84*x**2)+ 34*x + 4
+        d = (4*x+1)**(3/2)
+        return n/d
+    for i in range(1, 10):
+        print(drvf(i), gt_drvf(i))
+        assert abs(gt_drvf(i) - drvf(i)) <= 0.001
+
+    assert drv is not None
+    print(drv)
+
+    # zeros = find_poly_2_zeros(drv)
+    # print(zeros)
+
+    f1 = tof(fex)
+    f2 = tof(deriv(fex))
+
+    xvals = np.linspace(1, 5, 10000)
     yvals1 = np.array([f1(x) for x in xvals])
     yvals2 = np.array([f2(x) for x in xvals])
     fig1 = plt.figure(1)
@@ -27,8 +59,8 @@ def problem_1_deriv(fexpr, xlim, ylim):
     plt.ylim()
     plt.xlim()
     plt.grid()
-    plt.plot(xvals, yvals1, label=fexpr.__str__(), c='r')
-    plt.plot(xvals, yvals2, label=deriv(fexpr).__str__(), c='g')
+    plt.plot(xvals, yvals1, label=fex.__str__(), c='r')
+    plt.plot(xvals, yvals2, label=deriv(fex).__str__(), c='g')
     plt.legend(loc='best')
     plt.show()
 
@@ -42,13 +74,63 @@ def problem_2_deriv():
     tof_second = tof(second_dv)
     print(tof_second(1.0))
 
+    #PROBLEM 3 - tangent line
+def problem_3_tangent():
+    fex = make_e_expr(make_pwr('x', 1.0))
+    print("f(x)= ",fex)
+    drv = deriv(fex)
+    print("f'(x)= ",drv)
+    drvf = tof(drv)
+    print("f'(-1)= ",drvf(-1))
+
+    #PROBLEM 4 - rate of change
+def problem_4_rate_change():
+    #x^2 -4y^2 = 9 when x = 5, y = -2, dx/dt = 3
+    x = 5.0
+    y = -2.0
+    dx_dt = 3.0
+
+    fex1 = make_pwr('x', 2.0)
+    fex2 = make_prod(const(-4.0), make_pwr('y', 2.0))
+    fex3 = make_plus(fex1, fex2)
+    print('f(x)=',fex3)
+    drv = deriv(fex3)
+    print("f'(x)=", drv)
+    top = drv.get_elt1()
+
+    bottom = make_prod(const(-1.0), drv.get_elt2())
+
+    dy_dt = (tof(top)(x)* dx_dt)/ (tof(bottom)(y))
+    print("dy_dt: ", dy_dt)
+
+    '''
+    d/dt(x^2) - d/dt(4y^2) =  d/dt 9
+    2x dx/dt - 8y dy/dt = 0   , subtract 8y
+    2x dx/dt  = 8y dy/dt , divide both sides by 8y to solve for dy/dt
+    (2x)/(8y) dx/dt = dy/dt
+    plug in x, y and dx/dt  to solve for dy/dt
+    dy/dt = -1.875
+
+    '''
 
 ########## SECTION 3 - THEORY OF THE FIRM #########
 
     #PROBLEM 1
+def problem_01():
+    # demand_expr = make_plus(make_prod(const(-0.003), make_pwr('x', 1.0)), const(85.0))
+    # print(demand_expr)
+    pass #not sure
 
+    #PROBLEM 2 - maximizing revenue
+def problem_02():
 
-    #PROBLEM 2
+    demand_expr = make_plus(make_prod(const(-0.001), make_pwr('x', 1.0)), const(2.0))
+    print(demand_expr)
+    num_units, rev, price = maximize_revenue(demand_expr, constraint=lambda x: 0 <= x <= 1000)
+    print('x = ', num_units.get_val())
+    print("rev = ", rev.get_val())
+    print('price = ', price.get_val())
+
 
     #PROBLEM 3 - demand elasticity f(p) = 100 - 2p
 def demand_elasticity(p):
