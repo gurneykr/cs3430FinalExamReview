@@ -14,7 +14,10 @@ from deriv import deriv
 from consts import is_const_line
 import sys
 from finalexamquestions import demand_elasticity, net_change, consumer_surplus, fit_regression_line, taylor_poly, newton_raphson,pell_approx_sqrt, pell, linear_programming_prob1, linear_programming_prob2
+from finalexamquestions import problem_2_deriv, problem_1_deriv, arm_tumor_test
+from derivtest import find_infl_pnts
 import numpy as np
+import math
 
 
 def test_01():
@@ -81,7 +84,30 @@ def test_08():
 def test_09():
     print(linear_programming_prob2())
 
+def test_10():
+    problem_1_deriv()
 
+def test_11():
+    f1 = make_prod(make_const(-1.0), make_pwr('x', 3.0))
+    f2 = make_prod(make_const(8.5), make_pwr('x', 2.0))
+    f3 = make_prod(make_const(0.0), make_pwr('x', 0.0))
+    f4 = make_plus(f1, f2)
+    f5 = make_plus(f4, f3)
+    f6 = make_plus(f5, make_const(100.0))
+    print(f6)
+
+    ips = find_infl_pnts(f6)
+    err = 0.0001
+    assert len(ips) == 1
+    ip = ips[0]
+    # assert abs(ip.get_x().get_val() - 1.0) <= err
+    # assert abs(ip.get_y().get_val() - 3.0) <= err
+    print("inflection points: ", ip)
+
+def test_12():
+    yt = make_prod(make_const(0.003 * math.pi),
+                   make_pwr('r', 3.0))
+    arm_tumor_test(yt, make_const(10.3), make_const(-1.75))
 
 if __name__ =='__main__':
-    test_09()
+    test_12()

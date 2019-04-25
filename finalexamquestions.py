@@ -11,7 +11,36 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 ######SECTION 2 - DIFFERENTIATION
+    #PROBLEM 1
+def problem_1_deriv(fexpr, xlim, ylim):
 
+    f1 = tof(fexpr)
+    f2 = tof(deriv(fexpr))
+
+    xvals = np.linspace(-2, 2, 10000)
+    yvals1 = np.array([f1(x) for x in xvals])
+    yvals2 = np.array([f2(x) for x in xvals])
+    fig1 = plt.figure(1)
+    fig1.suptitle('Graph')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.ylim()
+    plt.xlim()
+    plt.grid()
+    plt.plot(xvals, yvals1, label=fexpr.__str__(), c='r')
+    plt.plot(xvals, yvals2, label=deriv(fexpr).__str__(), c='g')
+    plt.legend(loc='best')
+    plt.show()
+
+    #PROBLEM 2
+def problem_2_deriv():
+    fexpr = make_prod(make_pwr('t', 2.0), make_ln(make_pwr('t', 1.0)))
+    print(fexpr)
+    dv = deriv(fexpr)
+    print(dv)
+    second_dv = deriv(dv)
+    tof_second = tof(second_dv)
+    print(tof_second(1.0))
 
 
 ########## SECTION 3 - THEORY OF THE FIRM #########
@@ -62,6 +91,28 @@ def consumer_surplus(dexpr, a):
 
 ######## SECTION 4 RATES OF CHANGE AND 1D FUNCTION OPTIMIZATION #####
 
+#PROBLEM 1 inflection point - call find_infl_pnts in derivtest.py
+
+#PROBLEM 2  arm tumor
+
+def dydt_given_x_dxdt(yt, x, dxdt):
+    yt_deriv = deriv(yt)
+    yt_fn = tof(yt_deriv)(x.get_val())
+    result = yt_fn * dxdt.get_val()
+    return const(result)
+
+def arm_tumor_test(yt, radius, rate_change):
+    # yt = make_prod(make_const(0.003 * math.pi),
+    #                make_pwr('r', 3.0))
+    print(yt)
+    # dydt = dydt_given_x_dxdt(yt, make_const(10.3), make_const(-1.75))
+    assert isinstance(radius, const)
+    assert isinstance(rate_change, const)
+
+    dydt = dydt_given_x_dxdt(yt, radius, rate_change)
+    assert not dydt is None
+    assert isinstance(dydt, const)
+    print(dydt)
 
 
 
