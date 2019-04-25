@@ -228,7 +228,53 @@ def fun3(expr, half_life, n):#given an expr and it's half life, compute what's l
     remaining = p0 * (0.5**(n/half_life))
     return remaining
 
+def problem_2_arbitrary_sol(k):
+    f1 = lambda t: math.e ** (k * t)
+    f2 = lambda t: 2 * (math.e ** (k * t))
+    f3 = lambda t: 3 * (math.e ** (k* t))
+    f4 = lambda t: 4 * (math.e ** (k * t))
+    f5 = lambda t: 5 * (math.e ** (k* t))
 
+    xvals = np.linspace(-3, 3, 10000)
+    yvals1 = np.array([f1(x) for x in xvals])
+    yvals2 = np.array([f2(x) for x in xvals])
+    yvals3 = np.array([f3(x) for x in xvals])
+    yvals4 = np.array([f4(x) for x in xvals])
+    yvals5 = np.array([f5(x) for x in xvals])
+
+    fig1 = plt.figure(1)
+    fig1.suptitle('Solutions to y\' = 0.3y')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.ylim([0, 10])
+    plt.xlim([-3, 3])
+    plt.grid()
+    plt.plot(xvals, yvals1, label='e^{0.3t}', c='r')
+    plt.plot(xvals, yvals2, label='2e^{0.3t}', c='g')
+    plt.plot(xvals, yvals3, label='3e^{0.3t}', c='g')
+    plt.plot(xvals, yvals4, label='4e^{0.3t}', c='b')
+    plt.plot(xvals, yvals5, label='5e^{0.3t}', c='m')
+
+    plt.legend(loc='best')
+    plt.show()
+
+def problem_3_unique_sol(k, y0):
+    f1 = lambda t: y0 * math.e ** (k * t)
+
+    xvals = np.linspace(-3, 3, 10000)
+    yvals1 = np.array([f1(x) for x in xvals])
+
+    fig1 = plt.figure(1)
+    fig1.suptitle('Solutions to y\' = 0.3y')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.ylim([0, 10])
+    plt.xlim([-3, 3])
+    plt.grid()
+    plt.plot(xvals, yvals1, label='y0 * e^{0.3t}', c='r')
+
+    plt.legend(loc='best')
+    plt.show()
 ##### SECTION 6 - ANTIDIFFERENTIATION ############
 
     ##PROBLEM 2 Riemann sum stuff in defintegralapprox.py
@@ -382,6 +428,11 @@ def linear_programming_prob2():
     print(max_xy, max_val)
 #### SECTION 10 - LINEAR SYSTEMS ###########
 
+    #PROBLEM 1- solving linear systems in the form Ax = b
+
+    #PROBLEM 2 - computing determinantes
+
+    #PROBLEM 3- Cramer's rule
 
 
 

@@ -14,7 +14,7 @@ from deriv import deriv
 from consts import is_const_line
 import sys
 from finalexamquestions import demand_elasticity, net_change, consumer_surplus, fit_regression_line, taylor_poly, newton_raphson,pell_approx_sqrt, pell, linear_programming_prob1, linear_programming_prob2
-from finalexamquestions import problem_2_deriv, problem_1_deriv, arm_tumor_test, problem_4_rate_change, problem_02, problem_1_decay
+from finalexamquestions import problem_2_deriv, problem_1_deriv, arm_tumor_test, problem_4_rate_change, problem_02, problem_1_decay, problem_2_arbitrary_sol, problem_3_unique_sol
 from derivtest import find_infl_pnts
 import numpy as np
 import math
@@ -112,4 +112,6 @@ def test_12():
 if __name__ =='__main__':
     # problem_4_rate_change()
     # problem_02()
-    problem_1_decay()
+    # problem_1_decay()
+    # problem_2_arbitrary_sol(0.3)
+    problem_3_unique_sol(0.3, 6.0)
