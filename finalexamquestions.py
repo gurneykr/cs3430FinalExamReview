@@ -429,11 +429,56 @@ def linear_programming_prob2():
 #### SECTION 10 - LINEAR SYSTEMS ###########
 
     #PROBLEM 1- solving linear systems in the form Ax = b
+def problem_1_linear_systems():
+    A = np.matrix([[2, 1, 3],
+                   [4, 1, 2],
+                   [1, 2, -3]])
+
+    b = np.array([1, 0, 4])
+    sol = np.linalg.solve(A, b)
+    print("det = ", sol)
+
+    print("inverse = \n", np.linalg.inv(A))
+
+    print("transpose = \n", A.transpose())
 
     #PROBLEM 2 - computing determinantes
+def problem_2_determinants():
+    A = np.matrix([[2, 1, 3],
+                   [4, 1, 2],
+                   [1, 2, -3]])
+    sol = np.linalg.det(A)
+    print(sol)
 
     #PROBLEM 3- Cramer's rule
+def problem_3_cramers():
+    A = np.matrix([[5, -2, 1],
+                   [0, 1, 2],
+                   [1, 6, -1]])
+    b = np.array([1, 0, 4])
+    B1 = np.matrix([[1, -2, 1],
+                   [0, 1, 2],
+                   [4, 6, -1]])
 
+    B2 = np.matrix([[5, 1, 1],
+                   [0, 0, 2],
+                   [1, 4, -1]])
+    B3 = np.matrix([[5, -2, 1],
+                   [0, 1, 0],
+                   [1, 6, 4]])
+    #Cramer's rule by hand
+    detA = np.linalg.det(A)
+    x1 = np.linalg.det(B1)/ detA
+    x2 = np.linalg.det(B2)/ detA
+    x3 = np.linalg.det(B3) / detA
+    cx = np.array([x1, x2, x3])
+    print(cx)
+    print(np.dot(A, cx))
+
+    #Gauss Jordan method
+    lx = np.linalg.solve(A, b)
+    print(lx)
+    assert np.allclose(np.dot(A, lx), b)
 
 
 #### SECTION 11 - CVIP ###############
