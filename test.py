@@ -13,7 +13,7 @@ from tof import tof
 from deriv import deriv
 from consts import is_const_line
 import sys
-from finalexamquestions import demand_elasticity, net_change, consumer_surplus, fit_regression_line, taylor_poly, newton_raphson,pell_approx_sqrt, pell
+from finalexamquestions import demand_elasticity, net_change, consumer_surplus, fit_regression_line, taylor_poly, newton_raphson,pell_approx_sqrt, pell, linear_programming_prob1, linear_programming_prob2
 import numpy as np
 
 
@@ -78,5 +78,10 @@ def test_07():
 def test_08():
     print(pell(10))
 
+def test_09():
+    print(linear_programming_prob2())
+
+
+
 if __name__ =='__main__':
-    test_08()
+    test_09()

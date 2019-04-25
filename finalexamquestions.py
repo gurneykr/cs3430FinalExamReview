@@ -174,7 +174,7 @@ def pell_approx_sqrt(n, a, b):
 
 
 ##### SECTION 9 - LINEAR PROGRAMMING IN 2 VARIABLES #######
-    #PROBLEM 1 - Maximizing trucks and cars
+    #PROBLEM 1 & 2- Maximizing trucks and cars
     #given constraints find corner points
     #plug in corner points into eq to be maximized
     #the corner point that results in the max is how many x(cars) and y(trucks) we should produce
@@ -195,12 +195,34 @@ def linear_programming_prob1():
     cp_3 = line_intersection(ln1, ln4)
 
     corner_points = [cp_1, cp_2, cp_3]
-    
+
     max_xy = maximize_obj_fun(f1, corner_points)
     max_val = f1(max_xy.get_x().get_val(), max_xy.get_y().get_val())
     print(max_xy, max_val)
 
+def linear_programming_prob2():
+    f1 = lambda x, y: 4 * x + 5 * y
 
+    ln1 = make_line_eq(make_var('x'), make_const(0.0))
+    ln2 = make_line_eq(make_var('y'), make_const(0.0))
+
+    ln3 = make_line_eq(make_var('y'), make_plus(
+        make_prod(const(-4.0),
+                  make_pwr('x', 1.0)), make_const(450)))
+
+    ln4 = make_line_eq(make_var('y'), make_plus(
+        make_prod(const(-1.0 / 2.0),
+                  make_pwr('x', 1.0)), make_const(100)))
+
+    cp_1 = line_intersection(ln1, ln3)
+    cp_2 = line_intersection(ln3, ln4)
+    cp_3 = line_intersection(ln2, ln4)
+
+    corner_points = [cp_1, cp_2, cp_3]
+
+    max_xy = maximize_obj_fun(f1, corner_points)
+    max_val = f1(max_xy.get_x().get_val(), max_xy.get_y().get_val())
+    print(max_xy, max_val)
 #### SECTION 10 - LINEAR SYSTEMS ###########
 
 

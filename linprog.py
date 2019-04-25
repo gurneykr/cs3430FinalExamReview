@@ -62,13 +62,33 @@ def line_intersection(lneq1, lneq2):
                 x = lneq2.get_rhs().get_val()
             else:
                 raise Exception('line_intersection: ' + str(lneq1))
+        elif lneq1.get_lhs().get_name() == 'x':
+            x = lneq1.get_rhs().get_val()
+            y = tof(lneq2.get_rhs())(x)
+        elif lneq1.get_lhs().get_name() == 'y':
+            eq2_coeff = get_line_coeffs(lneq2)
+            y = lneq1.get_rhs().get_val()
+            x = (-1.0*lneq2.get_rhs().get_elt2().get_val()) / eq2_coeff
         else:
             y = lneq1.get_rhs().get_val()
             x = tof(lneq2.get_rhs())(y)
     elif is_const_line(lneq2):
         #Case 2: 1 const line y = 1 ;y = x -1
-        y = lneq2.get_rhs().get_val()
-        x = tof(lneq1.get_rhs())(y)
+        if lneq2.get_lhs().get_name() == 'x':
+            x = lneq2.get_rhs().get_val()
+            y = tof(lneq1.get_rhs())(x)
+        elif lneq2.get_lhs().get_name() == 'y':
+            if isinstance(lneq1.get_rhs(), plus):
+                eq1_coeff = get_line_coeffs(lneq1)
+                y = lneq2.get_rhs().get_val()
+                x = (-1.0*lneq1.get_rhs().get_elt2().get_val())/ eq1_coeff
+
+                # x = tof(lneq1.get_rhs())(y)
+            else:
+                raise Exception('Unknown lneq1')
+        else:
+            raise Exception('Unknown is const line')
+
     elif isinstance(lneq1.get_rhs(), pwr):#y = 1x; y = -1x +6
         eq1_coeff = get_line_coeffs(lneq1)
         eq2_coeff = get_line_coeffs(lneq2)
@@ -81,7 +101,7 @@ def line_intersection(lneq1, lneq2):
         eq1_coeff = get_line_coeffs(lneq1)
         eq2_coeff = get_line_coeffs(lneq2)
         if isinstance(lneq2.get_rhs(), plus):
-            x = (lneq2.get_rhs().get_elt2().get_val() + lneq1.get_rhs().get_elt2().get_val())/ (eq1_coeff - eq2_coeff)
+            x = (lneq2.get_rhs().get_elt2().get_val() - lneq1.get_rhs().get_elt2().get_val())/ (eq1_coeff - eq2_coeff)
             y = tof(lneq1.get_rhs())(x)
         else:
             raise Exception("Unknown plus equation")
@@ -101,7 +121,7 @@ def line_intersection(lneq1, lneq2):
     else:
         raise Exception('line_intersection: ' + 'unknown equations')
 
-    return make_point2d(x, y)
+    return make_point2d(int(x), int(y))
 
 def get_line_coeffs(lneq):
     if isinstance(lneq.get_rhs(), prod):
